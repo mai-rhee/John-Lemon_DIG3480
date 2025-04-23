@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
 
+    public float normalSpeed = 1f;
+    public float boostedSpeed = 2f; // Speed when Q is pressed
+
     void Start ()
     {
         m_Animator = GetComponent<Animator> ();
@@ -50,7 +53,18 @@ public class PlayerMovement : MonoBehaviour
 
     void OnAnimatorMove ()
     {
-        m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
+        float currentSpeed;
+
+        if(Input.GetKey(KeyCode.F))
+        {
+            currentSpeed = boostedSpeed;
+        }
+        else
+        {
+            currentSpeed = normalSpeed;
+        }
+
+        m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude * currentSpeed);
         m_Rigidbody.MoveRotation (m_Rotation);
     }
 }
